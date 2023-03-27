@@ -465,13 +465,13 @@ var Outside = {
 		}
 		
 		for(var k in $SM.get('game.buildings')) {
-			if(k == 'trap') {
+			if(k == 'trap' || k == 'utrap') {
 				var numTraps = $SM.get('game.buildings["'+k+'"]');
 				var numBait = $SM.get('stores.bait', true);
 				var traps = numTraps - numBait;
 				traps = traps < 0 ? 0 : traps;
 				Outside.updateVillageRow(k, traps, village);
-				Outside.updateVillageRow('baited trap', numBait > numTraps ? numTraps : numBait, village);
+				Outside.updateVillageRow('baited '+k, numBait > numTraps ? numTraps : numBait, village);
 			} else {
 				if(Outside.checkWorker(k)) {
 					Outside.updateWorkersView();
@@ -637,6 +637,7 @@ var Outside = {
 			$SM.set('game.outside.seenForest', true);
 		}
 		Outside.updateTrapButton();
+		Outside.updateUTrapButton();
 		Outside.updateVillage(true);
 
 		Engine.moveStoresView($('#village'), transition_diff);
@@ -696,7 +697,7 @@ var Outside = {
 		var numDrops = numTraps + (numBait < numTraps ? numBait*3 : numTraps*2);
 		for(var i = 0; i < numDrops; i++) {
 			var roll = Math.random();
-			for(var j in Outside.TrapDrops) {
+			for(var j in Outside.UTrapDrops) {
 				var drop = Outside.UTrapDrops[j];
 				if(roll < drop.rollUnder) {
 					var num = drops[drop.name];

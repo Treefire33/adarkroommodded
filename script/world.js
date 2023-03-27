@@ -99,6 +99,13 @@ var World = {
 			damage: 'stun',
 			cooldown: 15,
 			cost: { 'bolas': 1 }
+		},
+		'handheld nuke': {
+			verb: _('detonate'),
+			type: 'ranged',
+			damage: 100000000,
+			cooldown: 40,
+			cost: { 'handheld nuke': 1, 'torch': 1 }
 		}
 	},
 

@@ -348,6 +348,19 @@ var Room = {
 					'sulphur': 50
 				};
 			}
+		},
+		'handheld nuke': {
+			name: _('handheld nuke'),
+			type: 'weapon',
+			buildMsg: _("extremely powerful handheld bomb that instantly destroys an enemy."),
+			cost: function() {
+				return {
+					'grenade': 10,
+					'sulphur': 100,
+					'alien alloy': 1,
+					'steel': 250
+				};
+			}
 		}
 	},
 	
