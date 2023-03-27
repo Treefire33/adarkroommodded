@@ -27,6 +27,23 @@ var Room = {
 				};
 			}
 		},
+		'uber trap': {
+			name: _('uber trap'),
+			button: null,
+			maximum: 5,
+			availableMsg: _('builder is going insane because the traps she made suck ass. she made a new trap design and wants to test it.'),
+			buildMsg: _('uber traps catch more, including minerals somehow'),
+			maxMsg: _("more uber traps would be for naught"),
+			type: 'building',
+			cost: function() {
+				var n = $SM.get('game.buildings["utrap"]', true);
+				return {
+					'wood': 50 + (n*50),
+					'iron': 10 + (n*10),
+					'steel': 5 + (n*5)
+				};
+			}
+		},
 		'cart': {
 			name: _('cart'),
 			button: null,
