@@ -31,8 +31,8 @@ var Room = {
 			name: _('uber trap'),
 			button: null,
 			maximum: 5,
-			availableMsg: _('builder is going insane because the traps she made suck ass. she made a new trap design and wants to test it.'),
-			buildMsg: _('uber traps catch more, including minerals somehow'),
+			availableMsg: _('builder says she has come up with a better trap design'),
+			buildMsg: _('uber traps catch more important resources'),
 			maxMsg: _("more uber traps would be for naught"),
 			type: 'building',
 			cost: function() {

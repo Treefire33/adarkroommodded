@@ -587,7 +587,7 @@ var Outside = {
 	},
 	
 	updateUTrapButton: function() {
-		var btn = $('div#trapsButton');
+		var btn = $('div#uTrapsButton');
 		if($SM.get('game.buildings["utrap"]', true) > 0) {
 			if(btn.length === 0) {
 				new Button.Button({
