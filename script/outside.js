@@ -94,7 +94,6 @@ var Outside = {
 			}
 		}
 	},
-	
 	TrapDrops: [
 		{
 			rollUnder: 0.5,
@@ -127,7 +126,38 @@ var Outside = {
 			message: _('a crudely made charm')
 		}
 	],
-	
+	UTrapDrops: [
+		{
+			rollUnder: 0.5,
+			name: 'iron',
+			message: _('scraps of iron')
+		},
+		{
+			rollUnder: 0.75,
+			name: 'coal',
+			message: _('chunks of coal')
+		},
+		{
+			rollUnder: 0.85,
+			name: 'scales',
+			message: _('lots of strange scales')
+		},
+		{
+			rollUnder: 0.93,
+			name: 'teeth',
+			message: _('tons of scattered teeth')
+		},
+		{
+			rollUnder: 0.995,
+			name: 'sulphur',
+			message: _('bad smelling sulphur')
+		},
+		{
+			rollUnder: 0.776,
+			name: 'charm',
+			message: _('a crudely made charm')
+		}
+	],
 	init: function(options) {
 		this.options = $.extend(
 			this.options,
@@ -173,6 +203,7 @@ var Outside = {
 		}).appendTo('div#outsidePanel');
 
 		Outside.updateTrapButton();
+		Outside.updateUTrapButton();
 	},
 	
 	getMaxPopulation: function() {
@@ -555,6 +586,27 @@ var Outside = {
 		}
 	},
 	
+	updateUTrapButton: function() {
+		var btn = $('div#trapsButton');
+		if($SM.get('game.buildings["utrap"]', true) > 0) {
+			if(btn.length === 0) {
+				new Button.Button({
+					id: 'uTrapsButton',
+					text: _("check uber traps"),
+					click: Outside.checkUTraps,
+					cooldown: Outside._TRAPS_DELAY,
+					width: '80px'
+				}).appendTo('div#outsidePanel');
+			} else {
+				Button.setDisabled(btn, false);
+			}
+		} else {
+			if(btn.length > 0) {
+				Button.setDisabled(btn, true);
+			}
+		}
+	},
+	
 	setTitle: function() {
 		var numHuts = $SM.get('game.buildings["hut"]', true);
 		var title;
@@ -619,14 +671,54 @@ var Outside = {
 		}
 		/// TRANSLATORS : Mind the whitespace at the end.
 		var s = _('the traps contain ');
-		for(var i = 0, len = msg.length; i < len; i++) {
-			if(len > 1 && i > 0 && i < len - 1) {
+		for(var l = 0, len = msg.length; l < len; l++) {
+			if(len > 1 && l > 0 && l < len - 1) {
 				s += ", ";
-			} else if(len > 1 && i == len - 1) {
+			} else if(len > 1 && l == len - 1) {
 				/// TRANSLATORS : Mind the whitespaces at the beginning and end.
 				s += _(" and ");
 			}
-			s += msg[i];
+			s += msg[l];
+		}
+		
+		var baitUsed = numBait < numTraps ? numBait : numTraps;
+		drops['bait'] = -baitUsed;
+		
+		Notifications.notify(Outside, s);
+		$SM.addM('stores', drops);
+	},
+	
+	checkUTraps: function(){
+		var drops = {};
+		var msg = [];
+		var numTraps = $SM.get('game.buildings["utrap"]', true);
+		var numBait = $SM.get('stores.bait', true);
+		var numDrops = numTraps + (numBait < numTraps ? numBait*3 : numTraps*2);
+		for(var i = 0; i < numDrops; i++) {
+			var roll = Math.random();
+			for(var j in Outside.TrapDrops) {
+				var drop = Outside.UTrapDrops[j];
+				if(roll < drop.rollUnder) {
+					var num = drops[drop.name];
+					if(typeof num == 'undefined') {
+						num = 0;
+						msg.push(drop.message);
+					}
+					drops[drop.name] = num + 1;
+					break;
+				}
+			}
+		}
+		/// TRANSLATORS : Mind the whitespace at the end.
+		var s = _('the uber traps contain ');
+		for(var l = 0, len = msg.length; l < len; l++) {
+			if(len > 1 && l > 0 && l < len - 1) {
+				s += ", ";
+			} else if(len > 1 && l == len - 1) {
+				/// TRANSLATORS : Mind the whitespaces at the beginning and end.
+				s += _(" and ");
+			}
+			s += msg[l];
 		}
 		
 		var baitUsed = numBait < numTraps ? numBait : numTraps;
@@ -643,7 +735,7 @@ var Outside = {
 			Outside.updateVillage();
 			Outside.updateWorkersView();
 			Outside.updateVillageIncome();
-		};
+		}
 	},
 
 	scrollSidebar: function(direction, reset) {
