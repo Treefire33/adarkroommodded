@@ -27,23 +27,6 @@ var Room = {
 				};
 			}
 		},
-		'uber trap': {
-			name: _('uber trap'),
-			button: null,
-			maximum: 5,
-			availableMsg: _('builder says she has come up with a better trap design'),
-			buildMsg: _('uber traps catch more important resources'),
-			maxMsg: _("more uber traps would be for naught"),
-			type: 'building',
-			cost: function() {
-				var n = $SM.get('game.buildings["utrap"]', true);
-				return {
-					'wood': 50 + (n*50),
-					'iron': 10 + (n*10),
-					'steel': 5 + (n*5)
-				};
-			}
-		},
 		'cart': {
 			name: _('cart'),
 			button: null,
@@ -171,6 +154,23 @@ var Room = {
 					'wood': 3000,
 					'steel': 100,
 					'sulphur': 50
+				};
+			}
+		},
+		'uber trap': {
+			name: _('uber trap'),
+			button: null,
+			maximum: 5,
+			availableMsg: _('builder says she has come up with a better trap design'),
+			buildMsg: _('uber traps catch more important resources'),
+			maxMsg: _("more uber traps would be for naught"),
+			type: 'building',
+			cost: function() {
+				var n = $SM.get('game.buildings["utrap"]', true);
+				return {
+					'wood': 50 + (n*50),
+					'iron': 10 + (n*10),
+					'steel': 5 + (n*5)
 				};
 			}
 		},
@@ -357,7 +357,6 @@ var Room = {
 				return {
 					'grenade': 10,
 					'sulphur': 100,
-					'alien alloy': 1,
 					'steel': 250
 				};
 			}
