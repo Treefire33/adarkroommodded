@@ -152,15 +152,15 @@
 				.appendTo(menu);
 
 			$('<span>')
-				.addClass('hyper menuBtn')
-				.text(_('hyper.'))
-				.click(Engine.confirmHyperMode)
-				.appendTo(menu);
-
-			$('<span>')
 				.addClass('hardcore menuBtn')
 				.text(_('hardcore.'))
 				.click(Engine.confirmHardcoreMode)
+				.appendTo(menu);
+
+			$('<span>')
+				.addClass('hyper menuBtn')
+				.text(_('hyper.'))
+				.click(Engine.confirmHyperMode)
 				.appendTo(menu);
 
 			$('<span>')
@@ -232,6 +232,10 @@
 
 			if($SM.get('config.hyperMode', true)){
 					Engine.triggerHyperMode();
+			}
+
+			if($SM.get('config.hardcoreMode', true)){
+					Engine.triggerHardcoreMode();
 			}
 
 			Engine.saveLanguage();
@@ -546,22 +550,30 @@
 
 		triggerHyperMode: function() {
 			Engine.options.doubleTime = !Engine.options.doubleTime;
-			if(Engine.options.doubleTime)
+			Engine.options.hardcore = false;
+			if(Engine.options.doubleTime){
 				$('.hyper').text(_('classic.'));
-			else
+				$('.hardcore').text(_('hardcore.'));
+			}
+			else{
 				$('.hyper').text(_('hyper.'));
-
+			}
 			$SM.set('config.hyperMode', Engine.options.doubleTime, false);
+			$SM.set('config.hardcore', Engine.options.hardcore, false);
 		},
 
 		triggerHardcoreMode: function() {
 			Engine.options.hardcore = !Engine.options.hardcore;
-			if(Engine.options.hardcore)
+			Engine.options.doubleTime = false;
+			if(Engine.options.hardcore){
 				$('.hardcore').text(_('classic.'));
-			else
+				$('.hyper').text(_('hyper.'));
+			}
+			else{
 				$('.hardcore').text(_('hardcore.'));
-
+			}
 			$SM.set('config.hardcore', Engine.options.hardcore, false);
+			$SM.set('config.hyperMode', Engine.options.hardcore, false);
 		},
 
 		// Gets a guid
@@ -799,6 +811,10 @@
 				Engine.log('Double time, cutting interval in half');
 				interval /= 2;
 			}
+			if( Engine.options.hardcore && !skipDouble ){
+				Engine.log('Negative double time, stitching interval plus a half');
+				interval *= 2;
+			}
 
 			return setInterval(callback, interval);
 
@@ -809,6 +825,10 @@
 			if( Engine.options.doubleTime && !skipDouble ){
 				Engine.log('Double time, cutting timeout in half');
 				timeout /= 2;
+			}
+			if( Engine.options.hardcore && !skipDouble ){
+				Engine.log('Negative double time, stitching timeout plus a half');
+				timeout *= 2;
 			}
 
 			return setTimeout(callback, timeout);

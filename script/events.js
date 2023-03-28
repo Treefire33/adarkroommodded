@@ -432,6 +432,10 @@ var Events = {
 			var dmg = -1;
 			if(Math.random() <= toHit) {
 				dmg = scene.damage;
+				if($SM.get('config.hardcoreMode', true))
+				{
+					dmg = dmg*2;
+				}
 			}
 
 			var attackFn = scene.ranged ? Events.animateRanged : Events.animateMelee;
