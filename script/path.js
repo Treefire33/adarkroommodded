@@ -11,7 +11,8 @@ var Path = {
 		'bullets': 0.1,
 		'energy cell': 0.2,
 		'laser rifle': 5,
-		'bolas': 0.5
+		'bolas': 0.5,
+		'handheld nuke': 25
 	},
 		
 	name: 'Path',
@@ -170,7 +171,8 @@ var Path = {
 			'energy cell': {type: 'tool' },
 			'bayonet': {type: 'weapon' },
 			'charm': {type: 'tool'},
-			'medicine': {type: 'tool'}
+			'medicine': {type: 'tool'},
+			'handheld nuke': {type: 'weapon'}
 		}, Room.Craftables);
 		
 		for(var k in carryable) {

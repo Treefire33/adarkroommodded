@@ -204,6 +204,14 @@ var Outside = {
 
 		Outside.updateTrapButton();
 		Outside.updateUTrapButton();
+		//if that function doesn't work, add the button forcefully
+		new Button.Button({
+			id: 'uTrapsButton',
+			text: _("check uber traps"),
+			click: Outside.checkUTraps,
+			cooldown: Outside._TRAPS_DELAY,
+			width: '80px'
+		}).appendTo('div#outsidePanel');
 	},
 	
 	getMaxPopulation: function() {
@@ -620,9 +628,12 @@ var Outside = {
 			title = _("A Modest Village");
 		} else if(numHuts <= 14) {
 			title = _("A Large Village");
-		} else {
+		} else if(numHuts <= 21){
 			title = _("A Raucous Village");
+		} else {
+			title = _("A Large City");
 		}
+
 		
 		if(Engine.activeModule == this) {
 			document.title = title;

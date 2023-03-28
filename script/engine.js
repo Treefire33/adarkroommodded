@@ -140,9 +140,9 @@
 			}
 
 			$('<span>')
-				.addClass('appStore menuBtn')
-				.text(_('app store.'))
-				.click(function() { window.open('https://itunes.apple.com/app/apple-store/id736683061?pt=2073437&ct=adrproper&mt=8'); })
+				.addClass('changelog menuBtn')
+				.text(_('changelog.'))
+				.click(Engine.promptChangelog)
 				.appendTo(menu);
 
 			$('<span>')
@@ -546,6 +546,17 @@
 			} else {
 				Engine.triggerHardcoreMode();
 			}
+		},
+
+		promptChangelog: function() {
+			Events.startEvent({
+				title: _('Changelog'),
+				scenes: {
+					start: {
+						text: [_("Changelog:\nAdded uber traps\nAdded handheld nuke\nAdded new perk\nAdded hardcore\nThat's it so far")]
+					}
+				}
+			});
 		},
 
 		triggerHyperMode: function() {
