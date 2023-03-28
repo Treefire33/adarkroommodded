@@ -203,15 +203,18 @@ var Outside = {
 		}).appendTo('div#outsidePanel');
 
 		Outside.updateTrapButton();
+		if($SM.get('game.buildings["utrap"]', true) > 0)
+		{
+			new Button.Button({
+				id: 'uTrapsButton',
+				text: _("check uber traps"),
+				click: Outside.checkUTraps,
+				cooldown: Outside._TRAPS_DELAY,
+				width: '80px'
+			}).appendTo('div#outsidePanel');
+		}
 		Outside.updateUTrapButton();
 		//if that function doesn't work, add the button forcefully
-		new Button.Button({
-			id: 'uTrapsButton',
-			text: _("check uber traps"),
-			click: Outside.checkUTraps,
-			cooldown: Outside._TRAPS_DELAY,
-			width: '80px'
-		}).appendTo('div#outsidePanel');
 	},
 	
 	getMaxPopulation: function() {
