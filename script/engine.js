@@ -1,7 +1,7 @@
 (function() {
 	var Engine = window.Engine = {
 
-		SITE_URL: encodeURIComponent("http://adarkroom.doublespeakgames.com"),
+		SITE_URL: encodeURIComponent("https://firetreegames.net/adarkroommodded"),
 		VERSION: 1.3,
 		MAX_STORE: 99999999999999,
 		SAVE_DISPLAY: 30 * 1000,
@@ -67,6 +67,11 @@
 				name: _('gastronome'),
 				desc: _('restore more health when eating'),
 				notify: _('learned to make the most of food')
+			},
+			'light feet': {
+				name: _('light feet'),
+				desc: _('walk any distance without losing food and water'),
+				notify: _('learned that conserving resources and moving fast can increase distance traveled')
 			}
 		},
 
@@ -75,7 +80,8 @@
 			debug: false,
 			log: false,
 			dropbox: false,
-			doubleTime: false
+			doubleTime: false,
+			hardcore: false
 		},
 
 		init: function(options) {
@@ -152,6 +158,12 @@
 				.appendTo(menu);
 
 			$('<span>')
+				.addClass('hardcore menuBtn')
+				.text(_('hardcore.'))
+				.click(Engine.confirmHardcoreMode)
+				.appendTo(menu);
+
+			$('<span>')
 				.addClass('menuBtn')
 				.text(_('restart.'))
 				.click(Engine.confirmDelete)
@@ -182,7 +194,7 @@
 			$('<span>')
 				.addClass('menuBtn')
 				.text(_('github.'))
-				.click(function() { window.open('https://github.com/doublespeakgames/adarkroom'); })
+				.click(function() { window.open('https://github.com/treefire33/adarkroommodded'); })
 				.appendTo(menu);
 
 			// Register keypress handlers
@@ -417,13 +429,6 @@
 									window.open('https://www.facebook.com/sharer/sharer.php?u=' + Engine.SITE_URL, 'sharer', 'width=626,height=436,location=no,menubar=no,resizable=no,scrollbars=no,status=no,toolbar=no');
 								}
 							},
-							'google': {
-								text:_('google+'),
-								nextScene: 'end',
-								onChoose: function() {
-									window.open('https://plus.google.com/share?url=' + Engine.SITE_URL, 'sharer', 'width=480,height=436,location=no,menubar=no,resizable=no,scrollbars=no,status=no,toolbar=no');
-								}
-							},
 							'twitter': {
 								text: _('twitter'),
 								nextScene: 'end',
@@ -513,6 +518,32 @@
 			}
 		},
 
+		confirmHardcoreMode: function(){
+			if (!Engine.options.hardcore) {
+				Events.startEvent({
+					title: _('Go Hardcore?'),
+					scenes: {
+						start: {
+							text: [_('turning hardcore mode on slows down the game by x2 speed and makes all enemies x2 stronger. do you want to do that?')],
+							buttons: {
+								'yes': {
+									text: _('yes'),
+									nextScene: 'end',
+									onChoose: Engine.triggerHardcoreMode
+								},
+								'no': {
+									text: _('no'),
+									nextScene: 'end'
+								}
+							}
+						}
+					}
+				});
+			} else {
+				Engine.triggerHardcoreMode();
+			}
+		},
+
 		triggerHyperMode: function() {
 			Engine.options.doubleTime = !Engine.options.doubleTime;
 			if(Engine.options.doubleTime)
@@ -521,6 +552,16 @@
 				$('.hyper').text(_('hyper.'));
 
 			$SM.set('config.hyperMode', Engine.options.doubleTime, false);
+		},
+
+		triggerHardcoreMode: function() {
+			Engine.options.hardcore = !Engine.options.hardcore;
+			if(Engine.options.hardcore)
+				$('.hardcore').text(_('classic.'));
+			else
+				$('.hardcore').text(_('hardcore.'));
+
+			$SM.set('config.hardcore', Engine.options.hardcore, false);
 		},
 
 		// Gets a guid
