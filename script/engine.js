@@ -553,7 +553,13 @@
 				title: _('Changelog'),
 				scenes: {
 					start: {
-						text: [_("Changelog:\nAdded uber traps\nAdded handheld nuke\nAdded new perk\nAdded hardcore\nThat's it so far")]
+						text: [_("Changelog: Added uber traps, Added handheld nuke, Added new perk, Added hardcore, More huts can be made, That's it so far!")],
+						buttons: {
+							'yes': {
+								text: _('ok'),
+								nextScene: 'end',
+							}
+						}
 					}
 				}
 			});

@@ -628,7 +628,7 @@ var Outside = {
 			title = _("A Modest Village");
 		} else if(numHuts <= 14) {
 			title = _("A Large Village");
-		} else if(numHuts <= 21){
+		} else if(numHuts <= 20){
 			title = _("A Raucous Village");
 		} else {
 			title = _("A Large City");
